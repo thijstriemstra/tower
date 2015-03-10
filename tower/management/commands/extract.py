@@ -113,9 +113,9 @@ class Command(BaseCommand):
 
         if not os.path.isdir(outputdir):
             if not options.get('create'):
-                print ("Output directory must exist (%s) unless -c option is "
-                       "given. "
-                       "Specify one with --output-dir" % outputdir)
+                print("Output directory must exist (%s) unless -c option is "
+                      "given. "
+                      "Specify one with --output-dir" % outputdir)
                 return "FAILURE\n"
             else:
                 os.makedirs(outputdir)
@@ -129,11 +129,11 @@ class Command(BaseCommand):
 
         def callback(filename, method, options):
             if method != 'ignore':
-                print "  %s" % filename
+                print("  %s" % filename)
 
         for domain in domains:
 
-            print "Extracting all strings in domain %s..." % (domain)
+            print("Extracting all strings in domain %s..." % (domain))
 
             methods = settings.DOMAIN_METHODS[domain]
             extracted = extract_from_dir(root,
@@ -154,8 +154,8 @@ class Command(BaseCommand):
             pot_files.append(os.path.join(outputdir, '%s.pot' % i))
 
         if len(pot_files) > 1:
-            print ("Concatenating the non-standalone domains into %s.pot" %
-                   TEXT_DOMAIN)
+            print("Concatenating the non-standalone domains into %s.pot" %
+                  TEXT_DOMAIN)
 
             final_out = os.path.join(outputdir, '%s.pot' % TEXT_DOMAIN)
 
@@ -179,4 +179,4 @@ class Command(BaseCommand):
             for i in [x for x in domains if x not in standalone_domains]:
                 os.remove(os.path.join(outputdir, '%s.pot' % i))
 
-        print 'done'
+        print('done')

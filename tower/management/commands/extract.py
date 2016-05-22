@@ -1,6 +1,5 @@
 import os
 import tempfile
-from optparse import make_option
 from subprocess import Popen
 
 from django.core.management.base import BaseCommand
@@ -90,22 +89,25 @@ def create_pofile_from_babel(extracted):
 
 
 class Command(BaseCommand):
-    option_list = BaseCommand.option_list + (
-        make_option('--domain', '-d', default=DEFAULT_DOMAIN, dest='domain',
-                    help='The domain of the message files.  If "all" '
-                         'everything will be extracted and combined into '
-                         '%s.pot. (default: %%default).' % TEXT_DOMAIN),
-        make_option('--output-dir', '-o',
-                    default=os.path.join(settings.ROOT, 'locale', 'templates',
-                                         'LC_MESSAGES'),
-                    dest='outputdir',
-                    help='The directory where extracted files will be placed. '
-                         '(Default: %default)'),
-        make_option('-c', '--create',
-                    action='store_true', dest='create', default=False,
-                    help='Create output-dir if missing'),
 
-            )
+    def add_arguments(self, parser):
+        parser.add_argument('--domain', '-d',
+            default=DEFAULT_DOMAIN,
+            dest='domain',
+            help='The domain of the message files.  If "all" '
+                 'everything will be extracted and combined into '
+                 '%s.pot. (default: %%default).' % TEXT_DOMAIN)
+        parser.add_argument('--output-dir', '-o',
+            default=os.path.join(settings.ROOT, 'locale', 'templates',
+                                'LC_MESSAGES'),
+            dest='outputdir',
+            help='The directory where extracted files will be placed. '
+                 '(Default: %default)')
+        parser.add_argument('-c', '--create',
+            action='store_true',
+            dest='create',
+            default=False,
+            help='Create output-dir if missing')
 
     def handle(self, *args, **options):
         domains = options.get('domain')
